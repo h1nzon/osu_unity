@@ -10,13 +10,17 @@ public class Circle : MonoBehaviour
     private GameObject CircleObject;
     private float targetScale = 0.85f;
     private Vector3 Accuracy, AccuracyChange;
+    private Color AccuracyColor, BodyColor, BgColor;
     bool ScaleAccuracy;
     
     private void Awake() {
         approachcircle = CircleAccuracy.GetComponent<SpriteRenderer>();
         hitcircle = CircleBody.GetComponent<SpriteRenderer>();
         hitcircleoverlay = CircleBackGround.GetComponent<SpriteRenderer>();
-        AccuracyChange = new Vector3(0.5f, 0.5f, 0.5f);
+        AccuracyColor = approachcircle.color;
+        BodyColor = hitcircle.color;
+        BgColor = hitcircleoverlay.color;
+        AccuracyChange = new Vector3(1f, 1f, 1f);
     }
 
     // Function spawn object from GameHandler
@@ -34,7 +38,19 @@ public class Circle : MonoBehaviour
             if(CircleAccuracy.transform.localScale.x < targetScale){
                 ScaleAccuracy = false;
                 Destroy(CircleObject);
+                this.enabled = false;
             }
         }
+        // else{
+        //     if(AccuracyColor.a < 100){
+        //         AccuracyColor.a += 20f * Time.deltaTime;
+        //         BodyColor.a += 20f * Time.deltaTime;
+        //         BgColor.a += 20f * Time.deltaTime;
+        //     }
+        //     else{
+        //         Destroy(CircleObject);
+        //         this.enabled = false;
+        //     }
+        // }
     }
 }
