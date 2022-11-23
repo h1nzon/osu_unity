@@ -10,7 +10,9 @@ public class Circle : MonoBehaviour
     private Vector3 AccuracyChange;
     private Color AccuracyColor, BodyColor, BgColor;
     bool ScaleAccuracy;
-    
+
+    Camera cam;
+
     private void Awake() {
         approachcircle = CircleAccuracy.GetComponent<SpriteRenderer>();
         hitcircle = CircleBody.GetComponent<SpriteRenderer>();
@@ -19,6 +21,7 @@ public class Circle : MonoBehaviour
         BodyColor = hitcircle.color;
         BgColor = hitcircleoverlay.color;
         AccuracyChange = new Vector3(1f, 1f, 1f);
+        cam = Camera.main;
     }
 
     // Function spawn object from GameHandler
@@ -39,6 +42,7 @@ public class Circle : MonoBehaviour
                 this.enabled = false;
             }
         }
+        
         // else{
         //     if(AccuracyColor.a < 100){
         //         AccuracyColor.a += 20f * Time.deltaTime;
