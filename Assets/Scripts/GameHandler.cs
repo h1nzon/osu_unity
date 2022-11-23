@@ -5,29 +5,37 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
+    // Circle prefab
     public GameObject Circle;
+    
+    // Audio
     public AudioClip HitSound;
+    public AudioSource audio;
+
+    // Map reader
     private string Path;
     private string Line;
     private string[] LineParams;
     private int CountLine = 1;
+
+    // Spawn objects
     private float timer;
     private float x, y, z = -9, delay;
     private bool isSpawn = true;
-    AudioSource audio;
-    
-
     Camera cam;
 
 
+    private void Awake() {
+        Path = Application.dataPath + "/StreamingAssets/1.txt";
+        cam = Camera.main;
+    }
+    
     void Start()
     {
-        audio = GetComponent<AudioSource>();
-        cam = Camera.main;
-        Path = Application.dataPath + "/StreamingAssets/1.txt";
         ReadLine();
     }
 
+    // Read one string and spawn object
     void ReadLine(){
         StreamReader sr = new StreamReader(Path);
         sr = new StreamReader(Path);
@@ -49,16 +57,9 @@ public class GameHandler : MonoBehaviour
         isSpawn = false;
     }
 
-    // void SpawnCircle(float x, float y, float delay){
-    //     while(delay > timer){
-    //         GameObject CircleObject = Instantiate(Circle, new Vector2(x, y), Quaternion.identity);
-    //         CircleObject.GetComponent<Circle>().Spawn(CircleObject);
-    //     }
-    // }
-
-    // Update is called once per frame
     void Update()
     {
+        // Spawn objects at the right time
         timer = Time.time * 1000;
         if(!isSpawn){
             if(timer > delay){
@@ -69,7 +70,7 @@ public class GameHandler : MonoBehaviour
                 ReadLine();
             }
         }
-
+        // Click event clicking on the circle
         if(Input.GetKeyDown("z") || Input.GetKeyDown("x") || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -78,7 +79,6 @@ public class GameHandler : MonoBehaviour
                 Debug.Log(hit.transform.GetComponent<Transform>().localScale.x);
                 hit.transform.GetComponent<Transform>().position = new Vector3(-20f, 0f);
                 audio.PlayOneShot(HitSound);
-                // Destroy(hit.transform);
             }
         }
     }
