@@ -187,7 +187,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Circle: {fileID: 814412983280965675, guid: 4cd65156e40a5be4695625f32e7830c8, type: 3}
-  HitSound: {fileID: 8300000, guid: aff02cf1e3fcf684d87dfd08a20954d0, type: 3}
+  HitSound: {fileID: 8300000, guid: 1393ad9eded0fd54ab37dd6c6cce774c, type: 3}
+  audio: {fileID: 803075692}
+  file: {fileID: 4900000, guid: af4e220ca4022c94e87274a5bb0aacbe, type: 3}
 --- !u!4 &323111743
 Transform:
   m_ObjectHideFlags: 0
@@ -664,9 +666,9 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -743,7 +745,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 803075691}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameHandler : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class GameHandler : MonoBehaviour
     public AudioSource audio;
 
     // Map reader
-    private string Path;
+    private string path;
     private string Line;
     private string[] LineParams;
     private int CountLine = 1;
@@ -24,21 +26,44 @@ public class GameHandler : MonoBehaviour
     private bool isSpawn = true;
     Camera cam;
 
-
     private void Awake() {
-        Path = Application.dataPath + "/StreamingAssets/1.txt";
         cam = Camera.main;
     }
-    
+
+    // Request for Windows and WebGl
+    IEnumerator GetRequest (string file_name) {
+    var uri = string.Concat ("https://localhost/osu_unity/StreamingAssets/", file_name);
+    using (var webRequest = UnityWebRequest.Get (uri)) {
+        yield return webRequest.SendWebRequest ();
+        // Windows request
+        if (webRequest.isNetworkError) {
+            path = Application.dataPath + "/StreamingAssets/1.osu";
+            Debug.LogError (webRequest.error);
+            Debug.Log("Selection: Default Windows path.");
+            ReadLine(path);
+        }
+        else {
+            // WebGl request
+            Directory.CreateDirectory (Application.streamingAssetsPath);
+            var savePath = Path.Combine (Application.streamingAssetsPath, file_name);
+            path = savePath;
+            Debug.Log("Selection: WebGL path.");
+            Debug.Log(path);
+            File.WriteAllText (savePath, webRequest.downloadHandler.text);
+            ReadLine(path);
+        }
+    }
+}
+
     void Start()
     {
-        ReadLine();
+        StartCoroutine(GetRequest ("1.osu"));
     }
 
     // Read one string and spawn object
-    void ReadLine(){
-        StreamReader sr = new StreamReader(Path);
-        sr = new StreamReader(Path);
+    void ReadLine(string path){
+        StreamReader sr = new StreamReader(path);
+        sr = new StreamReader(path);
         int i = 0;
         while(true)
         {
@@ -67,7 +92,7 @@ public class GameHandler : MonoBehaviour
                 z += 3;
                 CircleObject.GetComponent<Circle>().Spawn(CircleObject);
                 isSpawn = true;
-                ReadLine();
+                ReadLine(path);
             }
         }
         // Click event clicking on the circle
@@ -75,10 +100,8 @@ public class GameHandler : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit, 100)){
-                Debug.Log(hit.transform.name);
-                Debug.Log(hit.transform.GetComponent<Transform>().localScale.x);
+                audio.PlayOneShot(HitSound, 0.2f);
                 hit.transform.GetComponent<Transform>().position = new Vector3(-20f, 0f);
-                audio.PlayOneShot(HitSound);
             }
         }
     }
