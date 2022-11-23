@@ -5,13 +5,12 @@ public class Circle : MonoBehaviour
     public GameObject CircleAccuracy, CircleBody, CircleBackGround;
     [HideInInspector]
     public SpriteRenderer approachcircle, hitcircle, hitcircleoverlay;
-    private GameObject CircleObject;
+    private GameObject CircleObject, GameControl;
     private float targetScale = 1f;
     private Vector3 AccuracyChange;
     private Color AccuracyColor, BodyColor, BgColor;
     bool ScaleAccuracy;
-
-    Camera cam;
+    public GameHandler gameHandler;
 
     private void Awake() {
         approachcircle = CircleAccuracy.GetComponent<SpriteRenderer>();
@@ -21,7 +20,8 @@ public class Circle : MonoBehaviour
         BodyColor = hitcircle.color;
         BgColor = hitcircleoverlay.color;
         AccuracyChange = new Vector3(1f, 1f, 1f);
-        cam = Camera.main;
+        GameControl = GameObject.Find("GameControl");
+        gameHandler = GameControl.GetComponent<GameHandler>();
     }
 
     // Function spawn object from GameHandler
@@ -37,7 +37,9 @@ public class Circle : MonoBehaviour
         if(ScaleAccuracy){
             CircleAccuracy.transform.localScale -= AccuracyChange * Time.deltaTime;
             if(CircleAccuracy.transform.localScale.x < targetScale){
+                // gameHandler.NeedCircle++;
                 ScaleAccuracy = false;
+                gameHandler.NeedCircle++;
                 Destroy(CircleObject);
                 this.enabled = false;
             }

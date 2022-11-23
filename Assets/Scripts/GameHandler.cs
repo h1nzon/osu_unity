@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
@@ -7,9 +8,11 @@ using UnityEngine.Networking;
 
 public class GameHandler : MonoBehaviour
 {
-    // Circle prefab
-    public GameObject Circle;
-    
+    // Circle
+    public GameObject CirclePrefab;
+    private List<GameObject> CircleList = new List<GameObject>();
+    private int CountCircle = 0;
+    public int NeedCircle = 0;
     // Audio
     public AudioClip HitSound;
     public AudioSource audio;
@@ -88,9 +91,11 @@ public class GameHandler : MonoBehaviour
         timer = Time.time * 1000;
         if(!isSpawn){
             if(timer > delay){
-                GameObject CircleObject = Instantiate(Circle, new Vector3(x - 5f, y - 2.5f, z), Quaternion.identity);
-                z += 3;
-                CircleObject.GetComponent<Circle>().Spawn(CircleObject);
+                CircleList.Add(Instantiate(CirclePrefab, new Vector3(x - 5f, y - 2.5f, z), Quaternion.identity));
+                CircleList[CountCircle].name = "Circle_" + CountCircle;
+                z += 1;
+                CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
+                CountCircle++;
                 isSpawn = true;
                 ReadLine(path);
             }
@@ -99,9 +104,13 @@ public class GameHandler : MonoBehaviour
         if(Input.GetKeyDown("z") || Input.GetKeyDown("x") || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, 100)){
-                audio.PlayOneShot(HitSound, 0.2f);
-                hit.transform.GetComponent<Transform>().position = new Vector3(-20f, 0f);
+            if(Physics.Raycast(ray, out hit, 100))
+            {
+                if(hit.transform.name == "Circle_" + NeedCircle){
+                    Destroy(CircleList[NeedCircle]);
+                    audio.PlayOneShot(HitSound, 0.2f);
+                    NeedCircle++;
+                }
             }
         }
     }
