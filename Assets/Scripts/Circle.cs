@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Circle : MonoBehaviour
@@ -8,8 +6,8 @@ public class Circle : MonoBehaviour
     [HideInInspector]
     public SpriteRenderer approachcircle, hitcircle, hitcircleoverlay;
     private GameObject CircleObject;
-    private float targetScale = 0.85f;
-    private Vector3 Accuracy, AccuracyChange;
+    private float targetScale = 1f;
+    private Vector3 AccuracyChange;
     private Color AccuracyColor, BodyColor, BgColor;
     bool ScaleAccuracy;
     

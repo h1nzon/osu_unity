@@ -187,7 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Circle: {fileID: 814412983280965675, guid: 4cd65156e40a5be4695625f32e7830c8, type: 3}
-  CircleObject: {fileID: 0}
 --- !u!4 &323111743
 Transform:
   m_ObjectHideFlags: 0
@@ -848,7 +847,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054705958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.79}
+  m_LocalPosition: {x: 0, y: 0, z: 500}
   m_LocalScale: {x: 1.1839123, y: 1.1839123, z: 1.1839123}
   m_ConstrainProportionsScale: 0
   m_Children: []

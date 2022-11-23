@@ -1,24 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class GameHandler : MonoBehaviour
 {
     public GameObject Circle;
-    public TextAsset MapFile;
     private string Path;
     private string Line;
     private string[] LineParams;
-    private int CircleCount = 0;
-    private int TotalLines = 0;
     private int CountLine = 1;
-    public float FixAxis = 10;
     private float timer;
-    private float x, y, delay;
+    private float x, y, z = -9, delay;
     private bool isSpawn = true;
     void Start()
     {
@@ -60,7 +53,8 @@ public class GameHandler : MonoBehaviour
         timer = Time.time * 1000;
         if(!isSpawn){
             if(timer > delay){
-                GameObject CircleObject = Instantiate(Circle, new Vector2(x - 5f, y - 2.5f), Quaternion.identity);
+                GameObject CircleObject = Instantiate(Circle, new Vector3(x - 5f, y - 2.5f, z), Quaternion.identity);
+                z += 3;
                 CircleObject.GetComponent<Circle>().Spawn(CircleObject);
                 isSpawn = true;
                 ReadLine();
