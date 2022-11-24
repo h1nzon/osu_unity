@@ -186,10 +186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766ce61fa8a667a4cbad9c6372405cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Circle: {fileID: 814412983280965675, guid: 4cd65156e40a5be4695625f32e7830c8, type: 3}
+  CirclePrefab: {fileID: 814412983280965675, guid: 4cd65156e40a5be4695625f32e7830c8, type: 3}
+  NeedCircle: 0
   HitSound: {fileID: 8300000, guid: 1393ad9eded0fd54ab37dd6c6cce774c, type: 3}
   audio: {fileID: 803075692}
-  file: {fileID: 4900000, guid: af4e220ca4022c94e87274a5bb0aacbe, type: 3}
 --- !u!4 &323111743
 Transform:
   m_ObjectHideFlags: 0

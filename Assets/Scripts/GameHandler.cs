@@ -13,6 +13,8 @@ public class GameHandler : MonoBehaviour
     private List<GameObject> CircleList = new List<GameObject>();
     private int CountCircle = 0;
     public int NeedCircle = 0;
+    bool StartGame = false;
+    
     // Audio
     public AudioClip HitSound;
     public AudioSource audio;
@@ -37,26 +39,25 @@ public class GameHandler : MonoBehaviour
     IEnumerator GetRequest (string file_name) {
     var uri = string.Concat ("https://localhost/osu_unity/StreamingAssets/", file_name);
     using (var webRequest = UnityWebRequest.Get (uri)) {
-        yield return webRequest.SendWebRequest ();
-        // Windows request
-        if (webRequest.isNetworkError) {
-            path = Application.dataPath + "/StreamingAssets/1.osu";
-            Debug.LogError (webRequest.error);
-            Debug.Log("Selection: Default Windows path.");
-            ReadLine(path);
-        }
-        else {
-            // WebGl request
-            Directory.CreateDirectory (Application.streamingAssetsPath);
-            var savePath = Path.Combine (Application.streamingAssetsPath, file_name);
-            path = savePath;
-            Debug.Log("Selection: WebGL path.");
-            Debug.Log(path);
-            File.WriteAllText (savePath, webRequest.downloadHandler.text);
+            yield return webRequest.SendWebRequest ();
+            // Windows request
+            if (webRequest.isNetworkError) {
+                Debug.LogError (webRequest.error);
+                Debug.Log("Selection: Default Windows path.");
+                path = Application.dataPath + "/StreamingAssets/1.osu";
+            }
+            else {
+                // WebGL request
+                Directory.CreateDirectory (Application.streamingAssetsPath);
+                var savePath = Path.Combine (Application.streamingAssetsPath, file_name);
+                Debug.Log("Selection: WebGL path.");
+                Debug.Log(path);
+                path = savePath;
+            }
+            StartGame = true;
             ReadLine(path);
         }
     }
-}
 
     void Start()
     {
@@ -87,31 +88,33 @@ public class GameHandler : MonoBehaviour
 
     void Update()
     {
-        // Spawn objects at the right time
-        timer = Time.time * 1000;
-        if(!isSpawn){
-            if(timer > delay){
-                CircleList.Add(Instantiate(CirclePrefab, new Vector3(x - 5f, y - 2.5f, z), Quaternion.identity));
-                CircleList[CountCircle].name = "Circle_" + CountCircle;
-                z += 1;
-                CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
-                CountCircle++;
-                isSpawn = true;
-                ReadLine(path);
-            }
-        }
-        // Click event clicking on the circle
-        if(Input.GetKeyDown("z") || Input.GetKeyDown("x") || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, 100))
-            {
-                if(hit.transform.name == "Circle_" + NeedCircle){
-                    Destroy(CircleList[NeedCircle]);
-                    audio.PlayOneShot(HitSound, 0.2f);
-                    NeedCircle++;
+        if(StartGame){
+           // Spawn objects at the right time
+            timer = Time.time * 1000;
+            if(!isSpawn){
+                if(timer > delay){
+                    CircleList.Add(Instantiate(CirclePrefab, new Vector3(x - 5f, y - 2.5f, z), Quaternion.identity));
+                    CircleList[CountCircle].name = "Circle_" + CountCircle;
+                    z += 1;
+                    CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
+                    CountCircle++;
+                    isSpawn = true;
+                    ReadLine(path);
                 }
             }
+            // Click event clicking on the circle
+            if(Input.GetKeyDown("z") || Input.GetKeyDown("x") || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit, 100))
+                {
+                    if(hit.transform.name == "Circle_" + NeedCircle){
+                        Destroy(CircleList[NeedCircle]);
+                        audio.PlayOneShot(HitSound, 0.2f);
+                        NeedCircle++;
+                    }
+                }
+            } 
         }
     }
 }
