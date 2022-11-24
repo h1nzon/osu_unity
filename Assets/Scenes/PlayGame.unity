@@ -200,6 +200,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9e7dc394a1b10ab459f35ec8d2b1ddbb, type: 3}
   - {fileID: 21300000, guid: 7a5240782c32c2e4ca735cc9bfc8a9c6, type: 3}
   HitSound: {fileID: 8300000, guid: 1393ad9eded0fd54ab37dd6c6cce774c, type: 3}
+  MapSound: {fileID: 8300000, guid: b43feb9108b428d478255d2e38a61a13, type: 3}
   audio: {fileID: 803075692}
 --- !u!4 &323111743
 Transform:
@@ -665,13 +666,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

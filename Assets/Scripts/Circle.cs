@@ -17,7 +17,7 @@ public class Circle : MonoBehaviour
         hitcircle = CircleBody.GetComponent<SpriteRenderer>();
         hitcircleoverlay = CircleBackGround.GetComponent<SpriteRenderer>();
         circlecombo = CircleCombo.GetComponent<SpriteRenderer>();
-        AccuracyChange = new Vector3(1f, 1f, 1f);
+        AccuracyChange = new Vector3(3f, 3f, 3f);
         GameControl = GameObject.Find("GameControl");
         gameHandler = GameControl.GetComponent<GameHandler>();
     }
