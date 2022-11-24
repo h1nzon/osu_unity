@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Circle : MonoBehaviour
 {
-    public GameObject CircleAccuracy, CircleBody, CircleBackGround;
+    public GameObject CircleAccuracy, CircleBody, CircleBackGround, CircleCombo;
     [HideInInspector]
-    public SpriteRenderer approachcircle, hitcircle, hitcircleoverlay;
+    public SpriteRenderer approachcircle, hitcircle, hitcircleoverlay, circlecombo;
     private GameObject CircleObject, GameControl;
     private float targetScale = 1f;
     private Vector3 AccuracyChange;
@@ -16,9 +16,7 @@ public class Circle : MonoBehaviour
         approachcircle = CircleAccuracy.GetComponent<SpriteRenderer>();
         hitcircle = CircleBody.GetComponent<SpriteRenderer>();
         hitcircleoverlay = CircleBackGround.GetComponent<SpriteRenderer>();
-        AccuracyColor = approachcircle.color;
-        BodyColor = hitcircle.color;
-        BgColor = hitcircleoverlay.color;
+        circlecombo = CircleCombo.GetComponent<SpriteRenderer>();
         AccuracyChange = new Vector3(1f, 1f, 1f);
         GameControl = GameObject.Find("GameControl");
         gameHandler = GameControl.GetComponent<GameHandler>();
@@ -37,7 +35,6 @@ public class Circle : MonoBehaviour
         if(ScaleAccuracy){
             CircleAccuracy.transform.localScale -= AccuracyChange * Time.deltaTime;
             if(CircleAccuracy.transform.localScale.x < targetScale){
-                // gameHandler.NeedCircle++;
                 ScaleAccuracy = false;
                 gameHandler.NeedCircle++;
                 Destroy(CircleObject);

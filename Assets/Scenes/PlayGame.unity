@@ -188,6 +188,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CirclePrefab: {fileID: 814412983280965675, guid: 4cd65156e40a5be4695625f32e7830c8, type: 3}
   NeedCircle: 0
+  Numbers:
+  - {fileID: 21300000, guid: beb79f66747c53445b5f79afe3ea66d6, type: 3}
+  - {fileID: 21300000, guid: 42588e0c217bafb4cb239b15de3d71b7, type: 3}
+  - {fileID: 21300000, guid: 4669b34e43307fb41a827b89c27ae78d, type: 3}
+  - {fileID: 21300000, guid: 909c16d852926cb4b9917c138e1d7f52, type: 3}
+  - {fileID: 21300000, guid: 12935a77e0fcbc5418837df08784d839, type: 3}
+  - {fileID: 21300000, guid: 772de3d62f45c8f4a8e763fd5c7e00af, type: 3}
+  - {fileID: 21300000, guid: c777388bc47bb5e4f812816810d0c156, type: 3}
+  - {fileID: 21300000, guid: cb1ec71d323f835439fbccfe4d8e2b6b, type: 3}
+  - {fileID: 21300000, guid: 9e7dc394a1b10ab459f35ec8d2b1ddbb, type: 3}
+  - {fileID: 21300000, guid: 7a5240782c32c2e4ca735cc9bfc8a9c6, type: 3}
   HitSound: {fileID: 8300000, guid: 1393ad9eded0fd54ab37dd6c6cce774c, type: 3}
   audio: {fileID: 803075692}
 --- !u!4 &323111743

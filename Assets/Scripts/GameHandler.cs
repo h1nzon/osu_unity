@@ -14,7 +14,12 @@ public class GameHandler : MonoBehaviour
     private int CountCircle = 0;
     public int NeedCircle = 0;
     bool StartGame = false;
-    
+    private bool NewCombo;
+    private int Combo = 1;
+
+    //Number assets
+    public List<Sprite> Numbers;
+
     // Audio
     public AudioClip HitSound;
     public AudioSource audio;
@@ -27,7 +32,7 @@ public class GameHandler : MonoBehaviour
 
     // Spawn objects
     private float timer;
-    private float x, y, z = -9, delay;
+    private float x, y, z = 0, delay;
     private bool isSpawn = true;
     Camera cam;
 
@@ -80,6 +85,7 @@ public class GameHandler : MonoBehaviour
         }
         CountLine++;
         LineParams = Line.Split(",");
+        NewCombo = LineParams[3] == "2";
         x = (float)Convert.ToDecimal(LineParams[0], CultureInfo.GetCultureInfo("en-US")) / 80;
         y = (float)Convert.ToDecimal(LineParams[1], CultureInfo.GetCultureInfo("en-US")) / 80;
         delay = (float)Convert.ToDecimal(LineParams[2], CultureInfo.GetCultureInfo("en-US"));
@@ -95,8 +101,14 @@ public class GameHandler : MonoBehaviour
                 if(timer > delay){
                     CircleList.Add(Instantiate(CirclePrefab, new Vector3(x - 5f, y - 2.5f, z), Quaternion.identity));
                     CircleList[CountCircle].name = "Circle_" + CountCircle;
-                    z += 1;
+                    z += 0.1f;
                     CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
+                    SpriteRenderer circlecombo = CircleList[CountCircle].GetComponent<Circle>().circlecombo;
+                    if(NewCombo){
+                        Combo = 1;
+                    }
+                    circlecombo.sprite = Numbers[Combo];
+                    Combo++;
                     CountCircle++;
                     isSpawn = true;
                     ReadLine(path);
