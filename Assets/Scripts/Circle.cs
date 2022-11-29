@@ -6,7 +6,7 @@ public class Circle : MonoBehaviour
     [HideInInspector]
     public SpriteRenderer approachcircle, hitcircle, hitcircleoverlay, circlecombo;
     private GameObject CircleObject, GameControl;
-    private float targetScale = 1f;
+    private float targetScale = 0.85f;
     private Vector3 AccuracyChange;
     private Color AccuracyColor, BodyColor, BgColor;
     bool ScaleAccuracy;

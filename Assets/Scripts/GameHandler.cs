@@ -44,7 +44,8 @@ public class GameHandler : MonoBehaviour
 
     // Request for Windows and WebGl
     IEnumerator GetRequest (string file_name) {
-    var uri = string.Concat ("https://localhost/osu_unity/StreamingAssets/", file_name);
+    var uri = string.Concat (Application.streamingAssetsPath + "/", file_name);
+    Debug.Log(Application.streamingAssetsPath);
     using (var webRequest = UnityWebRequest.Get (uri)) {
             yield return webRequest.SendWebRequest ();
             // Windows request
@@ -58,8 +59,9 @@ public class GameHandler : MonoBehaviour
                 Directory.CreateDirectory (Application.streamingAssetsPath);
                 var savePath = Path.Combine (Application.streamingAssetsPath, file_name);
                 Debug.Log("Selection: WebGL path.");
-                Debug.Log(path);
                 path = savePath;
+                Debug.Log(path);
+                File.WriteAllText (savePath, webRequest.downloadHandler.text);
             }
             StartGame = true;
 
