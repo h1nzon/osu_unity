@@ -112,7 +112,7 @@ public class GameHandler : MonoBehaviour
                     CircleList[CountCircle].name = "Circle_" + CountCircle;
                     z += 0.1f;
                     CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
-                    SpriteRenderer circlecombo = CircleList[CountCircle].GetComponent<Circle>().circlecombo;
+                    SpriteRenderer circlecombo = CircleList[CountCircle].GetComponent<Circle>().CircleCombo.GetComponent<SpriteRenderer>();
                     if(NewCombo){
                         Combo = 1;
                     }

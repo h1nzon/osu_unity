@@ -8,7 +8,7 @@ public class Circle : MonoBehaviour
     private GameObject CircleObject, GameControl;
     private float targetScale = 0.85f;
     private Vector3 AccuracyChange;
-    private Color AccuracyColor, BodyColor, BgColor;
+    private Color AccuracyColor, BodyColor, BgColor, ComboColor;
     bool ScaleAccuracy;
     public GameHandler gameHandler;
 
@@ -27,6 +27,7 @@ public class Circle : MonoBehaviour
         CircleObject = Circle;
         this.enabled = true;
         ScaleAccuracy = true;
+        AccuracyColor = approachcircle.color;
     }
 
     void Update()
@@ -37,21 +38,15 @@ public class Circle : MonoBehaviour
             if(CircleAccuracy.transform.localScale.x < targetScale){
                 ScaleAccuracy = false;
                 gameHandler.NeedCircle++;
-                Destroy(CircleObject);
                 this.enabled = false;
+                Destroy(CircleObject);
             }
         }
-        
-        // else{
-        //     if(AccuracyColor.a < 100){
-        //         AccuracyColor.a += 20f * Time.deltaTime;
-        //         BodyColor.a += 20f * Time.deltaTime;
-        //         BgColor.a += 20f * Time.deltaTime;
-        //     }
-        //     else{
-        //         Destroy(CircleObject);
-        //         this.enabled = false;
-        //     }
-        // }
+
+        AccuracyColor.a += 3f * Time.deltaTime;
+        approachcircle.color = AccuracyColor;
+        hitcircle.color = AccuracyColor;
+        hitcircleoverlay.color = AccuracyColor;
+        circlecombo.color = AccuracyColor;
     }
 }
