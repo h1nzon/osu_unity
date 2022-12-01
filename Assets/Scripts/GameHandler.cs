@@ -10,20 +10,23 @@ public class GameHandler : MonoBehaviour
 {
     // Circle
     public GameObject CirclePrefab;
+    [HideInInspector]
+    public int NeedCircle;
     private List<GameObject> CircleList = new List<GameObject>();
     private int CountCircle = 0;
-    public int NeedCircle = 0;
-    bool StartGame = false;
     private bool NewCombo;
     private int Combo = 1;
+    bool StartGame = false;
 
     //Number assets
-    public List<Sprite> Numbers;
+    [SerializeField]
+    private List<Sprite> Numbers;
 
     // Audio
-    public AudioClip HitSound, MapSound;
-    public AudioSource audio;
-    private bool audioPlay = false;
+    [SerializeField]
+    private AudioClip HitSound, MapSound;
+    [SerializeField]
+    private AudioSource audio;
 
     // Map reader
     private string path;
@@ -34,7 +37,6 @@ public class GameHandler : MonoBehaviour
     // Spawn objects
     private float timer;
     private float x, y, z = 0, delay;
-    private bool isSpawn = true;
     Camera cam;
 
     private void Awake() {
@@ -45,7 +47,6 @@ public class GameHandler : MonoBehaviour
     // Request for Windows and WebGl
     IEnumerator GetRequest (string file_name) {
     var uri = string.Concat (Application.streamingAssetsPath + "/", file_name);
-    Debug.Log(Application.streamingAssetsPath);
     using (var webRequest = UnityWebRequest.Get (uri)) {
             yield return webRequest.SendWebRequest ();
             // Windows request
@@ -64,14 +65,16 @@ public class GameHandler : MonoBehaviour
                 File.WriteAllText (savePath, webRequest.downloadHandler.text);
             }
             StartGame = true;
-
             ReadLine(path);
         }
     }
 
     void Start()
     {
+        Application.targetFrameRate = 0;
+        QualitySettings.vSyncCount = 0;
         StartCoroutine(GetRequest ("1.osu"));
+        audio.Play();
     }
 
     // Read one string and spawn object
@@ -88,17 +91,18 @@ public class GameHandler : MonoBehaviour
             Line = sr.ReadLine();
             i++;
         }
-        CountLine++;
-        LineParams = Line.Split(",");
-        NewCombo = LineParams[3] == "2";
-        x = (float)Convert.ToDecimal(LineParams[0], CultureInfo.GetCultureInfo("en-US")) / 80;
-        y = (float)Convert.ToDecimal(LineParams[1], CultureInfo.GetCultureInfo("en-US")) / 80;
-        delay = (float)Convert.ToDecimal(LineParams[2], CultureInfo.GetCultureInfo("en-US"));
-        isSpawn = false;
-        if(!audioPlay){
-            audio.Play();
+        if(Line != null){
+            CountLine++;
+            LineParams = Line.Split(",");
+            NewCombo = LineParams[3] == "2";
+            x = float.Parse(LineParams[0]) / 80;
+            y = float.Parse(LineParams[1]) / 80;
+            delay = float.Parse(LineParams[2]);
         }
-        audioPlay = true;
+        else
+        {
+            StartGame = false;
+        }   
     }
 
     void Update()
@@ -106,22 +110,19 @@ public class GameHandler : MonoBehaviour
         if(StartGame){
             timer = audio.time * 1000;
            // Spawn objects at the right time
-            if(!isSpawn){
-                if(audio.time * 1000 > delay){
-                    CircleList.Add(Instantiate(CirclePrefab, new Vector3(x - 3f, y - 2.5f, z), Quaternion.identity));
-                    CircleList[CountCircle].name = "Circle_" + CountCircle;
-                    z += 0.1f;
-                    CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
-                    SpriteRenderer circlecombo = CircleList[CountCircle].GetComponent<Circle>().CircleCombo.GetComponent<SpriteRenderer>();
-                    if(NewCombo){
-                        Combo = 1;
-                    }
-                    circlecombo.sprite = Numbers[Combo];
-                    Combo++;
-                    CountCircle++;
-                    isSpawn = true;
-                    ReadLine(path);
+            if(audio.time * 1000 > delay){
+                CircleList.Add(Instantiate(CirclePrefab, new Vector3(x - 3f, y - 2.5f, z), Quaternion.identity));
+                CircleList[CountCircle].name = "Circle_" + CountCircle;
+                CircleList[CountCircle].GetComponent<Circle>().Spawn(CircleList[CountCircle]);
+                SpriteRenderer circlecombo = CircleList[CountCircle].GetComponent<Circle>().CircleCombo.GetComponent<SpriteRenderer>();
+                if(NewCombo){
+                    Combo = 1;
                 }
+                circlecombo.sprite = Numbers[Combo];
+                z += 0.1f;
+                Combo++;
+                CountCircle++;
+                ReadLine(path);
             }
             // Click event clicking on the circle
             if(Input.GetKeyDown("z") || Input.GetKeyDown("x") || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){

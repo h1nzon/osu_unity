@@ -3,14 +3,13 @@ using UnityEngine;
 public class Circle : MonoBehaviour
 {
     public GameObject CircleAccuracy, CircleBody, CircleBackGround, CircleCombo;
-    [HideInInspector]
-    public SpriteRenderer approachcircle, hitcircle, hitcircleoverlay, circlecombo;
+    private SpriteRenderer approachcircle, hitcircle, hitcircleoverlay, circlecombo;
     private GameObject CircleObject, GameControl;
-    private float targetScale = 0.85f;
     private Vector3 AccuracyChange;
-    private Color AccuracyColor, BodyColor, BgColor, ComboColor;
-    bool ScaleAccuracy;
-    public GameHandler gameHandler;
+    private Color CircleColor;
+    private GameHandler gameHandler;
+    private float targetScale = 0.85f;
+    private bool ScaleAccuracy;
 
     private void Awake() {
         approachcircle = CircleAccuracy.GetComponent<SpriteRenderer>();
@@ -27,7 +26,7 @@ public class Circle : MonoBehaviour
         CircleObject = Circle;
         this.enabled = true;
         ScaleAccuracy = true;
-        AccuracyColor = approachcircle.color;
+        CircleColor = approachcircle.color;
     }
 
     void Update()
@@ -43,10 +42,10 @@ public class Circle : MonoBehaviour
             }
         }
 
-        AccuracyColor.a += 3f * Time.deltaTime;
-        approachcircle.color = AccuracyColor;
-        hitcircle.color = AccuracyColor;
-        hitcircleoverlay.color = AccuracyColor;
-        circlecombo.color = AccuracyColor;
+        CircleColor.a += 3f * Time.deltaTime;
+        approachcircle.color = CircleColor;
+        hitcircle.color = CircleColor;
+        hitcircleoverlay.color = CircleColor;
+        circlecombo.color = CircleColor;
     }
 }
